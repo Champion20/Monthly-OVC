@@ -27,14 +27,14 @@ pacman::p_load(tidyverse, janitor, here, gargle,glamr,anytime,patchwork,maditr, 
 
 # GLOBAL VARIABLES --------------------------------------------------------
 load_secrets()
-current_date <- Sys.Date()
+Date <- Sys.Date()
 
   get_last_day_of_previous_month <- function() {
     # Get today's date
-    today <- Sys.Date()
+    Date <- Sys.Date()
     
     # Get the first day of the current month
-    first_day_of_current_month <- floor_date(today, "month")
+    first_day_of_current_month <- floor_date(Date, "month")
     
     # Subtract one day to get the last day of the previous month
     last_day_of_previous_month <- first_day_of_current_month - days(1)
@@ -152,14 +152,20 @@ current_date <- Sys.Date()
   #'[Consolidating data from all partners (historical and current data)]
   
 
-  #---------- Current data only
-  AllData <- bind_rows(HIVSA_FY24,PACT_FY24,M2M_FY24, CINDI_FY24, G2G_FY24,NACOSA_FY24, MATCH_FY24) %>% select(-(`6/30/2024`:`12/31/2025`))
+  #---------- Update this section as follows:
+        #'["AllData" dataframe: Update the dates in the select function to exclude the (last date of the current month : 12/31/2025) for the 
+        #'["AllData_v1" dataframe: update the column index (cols= ...) to grab the index of the column containing the reporting period in the pivot_longer function 
+        #'[ Send flags to partners
+        #'[After flags have been resolved, update the the column index (cols= ...) for "AllData_v1" dataframe:  to grab the indices of the columns containing the current FY to reporting period in the pivot_longer function]
+  
+  AllData <- bind_rows(HIVSA_FY24,PACT_FY24,M2M_FY24, CINDI_FY24, G2G_FY24,NACOSA_FY24, MATCH_FY24) %>% select(-(`5/31/2024`:`12/31/2025`))
   
   AllDatav1<-AllData  %>% select(-(timer) ) %>% 
-    pivot_longer(cols= 9:16, values_to ="Value" ,names_to = "period") %>%
+    pivot_longer(cols= 9:15, values_to ="Value" ,names_to = "period") %>%  
     filter(!is.na(psnu)) %>%
     group_by_if(is_character) %>% summarise(value=sum(Value))
   
+  #--------------DQRT
   OutputTableau <-AllDatav1 %>%  mutate(period=mdy(period))%>%
     mutate(community_status="",last_refreshed=today(),End_Date=period,Start_Date=period,period_type="Monthly Cummulative within Quarter") %>%
     group_by( mech_code ,primepartner, psnu,community,indicator ,last_refreshed,disaggregate ,age,otherdisaggregate , community_status, Start_Date,period,period_type ) %>%
@@ -202,8 +208,9 @@ current_date <- Sys.Date()
   check2_HIVSA<-level2 %>% mutate(check2=OVC_HIVSTAT>OVC_SERV_Comprehensive) %>% select(primepartner,mech_code,psnu,community,period,age,OVC_SERV_Comprehensive,OVC_HIVSTAT ,check2) %>%
     mutate(check_description="OVC_HIVSTAT is greater that OVC COMPREHENSIVE") %>% filter(check2==TRUE) %>%   mutate(Deadline="", Status="", Partner_Comment="", Cleared_for_analytics="") %>%
     filter(mech_code=="70307")
-  #Check 3:OVC VLS>OVC_VLR
-  check3_HIVSA<-level2 %>% mutate(check3=OVC_VLS>OVC_VLR ,checkdescription="# OVC_VL Suppression >OVC_VL_ELIGIBLE")%>%
+ 
+   #Check 3:OVC VLS>OVC_VLR
+  check3_HIVSA<-level2 %>% mutate(check3=OVC_VLS>OVC_VLR ,checkdescription="# OVC_VL Suppression > OVC_VL_ELIGIBLE")%>%
     select(primepartner,mech_code,psnu,community,period,age,OVC_VLS,OVC_VLR ,check3,checkdescription) %>% filter(check3==TRUE) %>%
     mutate(Deadline="", Status="", Partners_Comments="", Cleared_for_analytics="") %>%  filter(mech_code=="70307")
   
