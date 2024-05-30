@@ -1,11 +1,13 @@
-# AUTHOR:   C.Trapence| USAID
-# PURPOSE:  Automating the process of Reporting  OVC non_MER indicators for USAID using Google sheets
-# LICENSE:  MIT
-# DATE UPDATED: 2024-05-23
-# UPDATED:  R. Pineteh | USAID
+# AUTHOR:   C.Trapence | USAID
+# PURPOSE:  Automating the DQRT process for OVC non_MER indicators reported by USAID partners
+# DATE:     2023-07-04
+# UPDATED:  2024-05-30
+# UPDATED BY:  R. Pineteh | USAID
 
-# DEPENDENCIES ------------------------------------------------------------
-  
+# SOURCE FILES-----------------------------------------------------------
+
+ #'[Source files used in the script include Partner Google Sheets
+
 
 # LOAD PACKAGES -----------------------------------------------------------
   library("glitr")
