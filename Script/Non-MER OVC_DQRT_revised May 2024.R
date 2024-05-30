@@ -1,8 +1,8 @@
-# AUTHOR:   R. Pineteh | USAID
-# PURPOSE:  Automating the process of Reporting OVC for USAID using Google sheets
+# AUTHOR:   C.Trapence| USAID
+# PURPOSE:  Automating the process of Reporting  OVC non_MER indicators for USAID using Google sheets
 # LICENSE:  MIT
-# DATE:     2024-05-23
-# UPDATED: 
+# DATE UPDATED: 2024-05-23
+# UPDATED:  R. Pineteh | USAID
 
 # DEPENDENCIES ------------------------------------------------------------
   
@@ -21,8 +21,8 @@
   library("glamr")
   library("tidyverse")
 
-if(!require(pacman)) install.packages("pacman")
-pacman::p_load(tidyverse, janitor, here, gargle,glamr,anytime,patchwork,maditr, googledrive,googlesheets4,openxlsx,lubridate,janitor,readr,stringr,sqldf)
+#if(!require(pacman)) install.packages("pacman")
+#pacman::p_load(tidyverse, janitor, here, gargle,glamr,anytime,patchwork,maditr, googledrive,googlesheets4,openxlsx,lubridate,janitor,readr,stringr,sqldf)
 
 
 # GLOBAL VARIABLES --------------------------------------------------------
@@ -221,9 +221,7 @@ Date <- Sys.Date()
   
   #Check 5: Zero reporting within for 3 consecutive months or zero reporting across an entire district
   
-  #[Final import output below]
-  
-  
+
   #Creating workbook with separate worksheets to document the different L1 and L2 checks
   wb <- createWorkbook()
   write.xlsx(check1_HIVSA,"Dataout/OVC_DQRT_Feedback_HIVSA.xlsx",  sheetName="Check1",append=TRUE)
@@ -243,7 +241,7 @@ Date <- Sys.Date()
   writeData(wb,sheet = "Missing_Data",x=Missing_data_HIVSA)
   
   saveWorkbook(wb,"Dataout/OVC_DQRT_Feedback_HIVSA.xlsx",overwrite = T)
-  #rm(HIVSA,HIVSA_FY23,HIVSA_FY24,check1_HIVSA,check2_HIVSA,check3_HIVSA,check4_HIVSA,Missing_data_HIVSA)
+  rm(HIVSA,HIVSA_FY23,HIVSA_FY24,check1_HIVSA,check2_HIVSA,check3_HIVSA,check4_HIVSA,Missing_data_HIVSA)
   
   #'[PACT Partner feedback]
   
@@ -286,7 +284,7 @@ Date <- Sys.Date()
   writeData(wb,sheet = "Missing_Data",x=Missing_data_PACT)
   
   saveWorkbook(wb,"Dataout/OVC_DQRT_Feedback_PACT.xlsx",overwrite = T)
-  #rm(check1_PACT,check2_PACT,check3_PACT,check4_PACT,Missing_data_PACT,PACT,PACT_FY23,PACT_FY24)
+  rm(check1_PACT,check2_PACT,check3_PACT,check4_PACT,Missing_data_PACT,PACT,PACT_FY23,PACT_FY24)
   #'[PACT END]
   
   
@@ -330,7 +328,7 @@ Date <- Sys.Date()
   writeData(wb,sheet = "Missing_Data",x=Missing_data_G2G)
   
   saveWorkbook(wb,"Dataout/OVC_DQRT_Feedback_G2G.xlsx",overwrite = T)
-  #rm(G2G,G2G_FY23,G2G_FY24,check1_G2G,check2_G2G,check3_G2G,check4_G2G,Missing_data_G2G)
+  rm(G2G,G2G_FY23,G2G_FY24,check1_G2G,check2_G2G,check3_G2G,check4_G2G,Missing_data_G2G)
   #'[G2G END]
   
   
@@ -375,7 +373,7 @@ Date <- Sys.Date()
   
   saveWorkbook(wb,"Dataout/OVC_DQRT_Feedback_M2M.xlsx",overwrite = T)
   
-  #rm(M2M,M2M_FY23,M2M_FY24, check1_M2M,check2_M2M,check3_M2M,check4_M2M,Missing_data_M2M)
+  rm(M2M,M2M_FY23,M2M_FY24, check1_M2M,check2_M2M,check3_M2M,check4_M2M,Missing_data_M2M)
   #'[M2M END]
   
   
@@ -420,7 +418,7 @@ Date <- Sys.Date()
   
   saveWorkbook(wb,"Dataout/OVC_DQRT_Feedback_CINDI.xlsx",overwrite = T)
   
-  #rm(CINDI,CINDI_FY23, CINDI_FY24,check1_CINDI,check2_CINDI,check3_CINDI,check4_CINDI, Missing_data_CINDI)
+  rm(CINDI,CINDI_FY23, CINDI_FY24,check1_CINDI,check2_CINDI,check3_CINDI,check4_CINDI, Missing_data_CINDI)
   #'[CINDI END]
   
   
@@ -463,7 +461,7 @@ Date <- Sys.Date()
   #'[NACOSA END]
   
   saveWorkbook(wb,"Dataout/OVC_DQRT_Feedback_NACOSA.xlsx",overwrite = T)
-  #rm(NACOSA,NACOSA_FY22,NACOSA_FY23,NACOSA_FY24, check1_NACOSA,check2_NACOSA, check3_NACOSA, check4_NACOSA, Missing_data_NACOSA)
+  rm(NACOSA,NACOSA_FY22,NACOSA_FY23,NACOSA_FY24, check1_NACOSA,check2_NACOSA, check3_NACOSA, check4_NACOSA, Missing_data_NACOSA)
   
   #'[MATCH Partner feedback]
   #
